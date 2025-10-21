@@ -4,10 +4,11 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { GeistSans } from "geist/font/sans";
 import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "@/providers/query-provider";
+import { ToastProvider } from "@/components/ui/toast";
 
 export const metadata: Metadata = {
-  title: "O2-Stack",
-  description: "O2-Stack",
+  title: "Ledger - Personal Finance Tracker",
+  description: "Track your UPI and cash transactions with ease",
 };
 
 export default function RootLayout({
@@ -27,6 +28,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <ToastProvider />
             </ThemeProvider>
           </QueryProvider>
         </body>
