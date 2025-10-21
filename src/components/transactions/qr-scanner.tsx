@@ -26,7 +26,7 @@ export function QrScanner({ onResult, onClose }: QrScannerProps) {
           videoRef.current.srcObject = stream;
           videoRef.current.play();
         }
-      } catch (err) {
+      } catch {
         setError("Camera access denied");
       }
     };

@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
     }) as WebhookEvent;
-  } catch (err) {
+  } catch {
     return new Response("Invalid signature", { status: 400 });
   }
 
@@ -34,18 +34,18 @@ export async function POST(req: Request) {
       where: { clerkUserId: id },
       create: {
         clerkUserId: id,
-        email: email_addresses[0]?.email_address!,
+        email: email_addresses[0]?.email_address || "",
         name: [first_name, last_name].filter(Boolean).join(" ") || null,
       },
       update: {
-        email: email_addresses[0]?.email_address!,
+        email: email_addresses[0]?.email_address || "",
         name: [first_name, last_name].filter(Boolean).join(" ") || null,
       },
     });
   }
 
   if (evt.type === "user.deleted") {
-    await db.user.delete({ where: { clerkUserId: evt.data.id! } });
+    await db.user.delete({ where: { clerkUserId: evt.data.id || "" } });
   }
 
   return new Response("OK", { status: 200 });

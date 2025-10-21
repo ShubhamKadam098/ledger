@@ -15,16 +15,26 @@ export function ContactPicker({ onPick, onClose }: ContactPickerProps) {
   const pickFromContacts = async () => {
     try {
       // Check if Contacts API is available
-      if ("contacts" in navigator && "select" in (navigator as any).contacts) {
-        const contacts = await (navigator as any).contacts.select(
-          ["name", "tel"],
-          {
-            multiple: false,
+      if (
+        "contacts" in navigator &&
+        "select" in
+          (navigator as unknown as { contacts: { select: unknown } }).contacts
+      ) {
+        const contacts = await (
+          navigator as unknown as {
+            contacts: {
+              select: (
+                props: string[],
+                options: { multiple: boolean }
+              ) => Promise<unknown[]>;
+            };
           }
-        );
+        ).contacts.select(["name", "tel"], {
+          multiple: false,
+        });
 
         if (contacts && contacts.length > 0) {
-          const contact = contacts[0];
+          const contact = contacts[0] as { tel?: string[]; name?: string[] };
           const phone = contact.tel?.[0];
           const name = contact.name?.[0];
 
@@ -37,7 +47,7 @@ export function ContactPicker({ onPick, onClose }: ContactPickerProps) {
       }
 
       setError("Contacts API not supported or no contact selected");
-    } catch (err) {
+    } catch {
       setError("Failed to access contacts");
     }
   };

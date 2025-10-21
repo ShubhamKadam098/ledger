@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 
 interface Transaction {
   id: string;
-  amount: number;
+  amount: number | { toString(): string; toNumber(): number };
   description?: string | null;
   paymentMethod: "UPI_PHONE" | "UPI_QR" | "CASH";
   spendingDate: Date;
@@ -55,7 +55,10 @@ export function TransactionList({ transactions }: TransactionListProps) {
   const handleEdit = (transaction: Transaction) => {
     setEditingTransaction(transaction);
     setEditForm({
-      amount: transaction.amount.toString(),
+      amount:
+        typeof transaction.amount === "number"
+          ? transaction.amount.toString()
+          : transaction.amount.toString(),
       description: transaction.description || "",
       spendingDate: format(transaction.spendingDate, "yyyy-MM-dd"),
     });
@@ -129,7 +132,11 @@ export function TransactionList({ transactions }: TransactionListProps) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">
-                      ₹{transaction.amount.toLocaleString()}
+                      ₹
+                      {(typeof transaction.amount === "number"
+                        ? transaction.amount
+                        : transaction.amount.toNumber()
+                      ).toLocaleString()}
                     </span>
                     {transaction.category && (
                       <span
