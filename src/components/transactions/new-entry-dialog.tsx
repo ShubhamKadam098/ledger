@@ -151,11 +151,17 @@ export function NewEntryDialog({ categories }: NewEntryDialogProps) {
                 }
               >
                 <option value="">Select category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
+                {categories.map(
+                  (category: {
+                    id: string;
+                    name: string;
+                    colorHex?: string | null;
+                  }) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 

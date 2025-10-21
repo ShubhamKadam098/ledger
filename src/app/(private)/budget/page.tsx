@@ -71,36 +71,42 @@ export default async function BudgetPage() {
                   </p>
                 </div>
               ) : (
-                categories.map((category) => {
-                  const categoryBudget = categoryBudgets.find(
-                    (cb) => cb.categoryId === category.id
-                  );
+                categories.map(
+                  (category: {
+                    id: string;
+                    name: string;
+                    colorHex: string | null;
+                  }) => {
+                    const categoryBudget = categoryBudgets.find(
+                      (cb) => cb.categoryId === category.id
+                    );
 
-                  return (
-                    <div key={category.id} className="border rounded-lg p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div
-                          className="w-4 h-4 rounded-full"
-                          style={{
-                            backgroundColor:
-                              category.colorHex || "hsl(var(--muted))",
-                          }}
+                    return (
+                      <div key={category.id} className="border rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div
+                            className="w-4 h-4 rounded-full"
+                            style={{
+                              backgroundColor:
+                                category.colorHex || "hsl(var(--muted))",
+                            }}
+                          />
+                          <span className="font-medium">{category.name}</span>
+                        </div>
+                        <BudgetForm
+                          type="category"
+                          monthKey={currentMonth}
+                          categoryId={category.id}
+                          currentAmount={
+                            categoryBudget?.amount
+                              ? Number(categoryBudget.amount)
+                              : 0
+                          }
                         />
-                        <span className="font-medium">{category.name}</span>
                       </div>
-                      <BudgetForm
-                        type="category"
-                        monthKey={currentMonth}
-                        categoryId={category.id}
-                        currentAmount={
-                          categoryBudget?.amount
-                            ? Number(categoryBudget.amount)
-                            : 0
-                        }
-                      />
-                    </div>
-                  );
-                })
+                    );
+                  }
+                )
               )}
             </div>
           </CardContent>
