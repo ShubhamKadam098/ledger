@@ -78,7 +78,8 @@ export default async function BudgetPage() {
                     colorHex: string | null;
                   }) => {
                     const categoryBudget = categoryBudgets.find(
-                      (cb) => cb.categoryId === category.id
+                      (cb: { categoryId: string }) =>
+                        cb.categoryId === category.id
                     );
 
                     return (
