@@ -43,18 +43,20 @@ export default async function Dashboard() {
 
   // Transform category spending data
   const categorySpendingWithNames = await Promise.all(
-    categorySpending.map(async (item) => {
-      const category = item.categoryId
-        ? await db.category.findUnique({ where: { id: item.categoryId } })
-        : null;
+    categorySpending.map(
+      async (item: { categoryId: string | null; amount: number }) => {
+        const category = item.categoryId
+          ? await db.category.findUnique({ where: { id: item.categoryId } })
+          : null;
 
-      return {
-        categoryId: item.categoryId,
-        categoryName: category?.name || "Uncategorized",
-        amount: item.amount,
-        colorHex: category?.colorHex,
-      };
-    })
+        return {
+          categoryId: item.categoryId,
+          categoryName: category?.name || "Uncategorized",
+          amount: item.amount,
+          colorHex: category?.colorHex,
+        };
+      }
+    )
   );
 
   const budgetAmount = monthlyBudget?.amount ? Number(monthlyBudget.amount) : 0;
