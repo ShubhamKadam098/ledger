@@ -1215,6 +1215,7 @@ packages:
 
   ezheaders@0.1.0:
     resolution: {integrity: sha512-U0wdCs2dS+IzFuxyHGyw1aWhiunW22sGqnyH4yQsovkgqUvO4YSbzQ5BQzV6HY4oFlNnK+TbFGJj8rvvX5aN7w==}
+    deprecated: This package has been deprecated
     peerDependencies:
       next: ^13.5.4 || ^14 || ^15
 
